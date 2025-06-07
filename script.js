@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const videos = document.querySelectorAll('.main-video');
     videos.forEach(video => {
         video.addEventListener('error', function() {
-            console.log('Error loading video, using placeholder');
+            console.log('Erro ao carregar vídeo, usando placeholder');
             const container = this.parentElement;
             container.innerHTML = `
                 <div style="
@@ -22,10 +22,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     color: rgba(255, 255, 255, 0.7);
                     font-size: 18px;
                 ">
-                    🎥 Video loading...
+                    🎥 Vídeo em carregamento...
                 </div>
             `;
         });
+    });
+
+    // Add intersection observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+            }
+        });
+    }, observerOptions);
+
+    // Observe animated elements
+    const animatedElements = document.querySelectorAll('.main-title, .main-description, .email-section, .video-container');
+    animatedElements.forEach(el => {
+        el.style.animationPlayState = 'paused';
+        observer.observe(el);
     });
 
     // Add some Easter eggs for fun
@@ -37,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (clickCount === 5) {
                 // Create notification element
                 const notification = document.createElement('div');
-                notification.textContent = '🎉 You discovered an Easter Egg! Made with love.';
+                notification.textContent = '🎉 Você descobriu um Easter Egg! Desenvolvido com amor.';
                 
                 // Add styles
                 notification.style.cssText = `
