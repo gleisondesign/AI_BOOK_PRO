@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Landing Page</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header with Glass Effect -->
-    <header class="glass-header">
+    <!-- Header -->
+    <header class="header">
         <div class="container">
             <div class="logo">
                 <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
@@ -39,12 +39,14 @@
                     </p>
                     
                     <div class="email-section">
-                        <div class="email-form">
-                            <input type="email" id="email" placeholder="Digite seu email" class="email-input">
-                            <button type="button" class="subscribe-btn" onclick="handleSubscribe()">
+                        <form method="POST" action="https://formsubmit.co/designgleison@gmail.com" class="email-form">
+                            <input type="email" name="email" placeholder="Digite seu email" class="email-input" required>
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_template" value="box">
+                            <button type="submit" class="subscribe-btn">
                                 Inscrever-se
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
 
@@ -85,12 +87,14 @@
                 </div>
 
                 <div class="email-section">
-                    <div class="email-form">
-                        <input type="email" id="emailMobile" placeholder="Digite seu email" class="email-input">
-                        <button type="button" class="subscribe-btn" onclick="handleSubscribeMobile()">
+                    <form method="POST" action="https://formsubmit.co/designgleison@gmail.com" class="email-form">
+                        <input type="email" name="email" placeholder="Digite seu email" class="email-input" required>
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="box">
+                        <button type="submit" class="subscribe-btn">
                             Inscrever-se
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
