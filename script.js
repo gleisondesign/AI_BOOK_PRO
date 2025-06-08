@@ -1,12 +1,32 @@
 
-// Handle video loading error
+// Handle video loading and autoplay optimization for mobile
 document.addEventListener('DOMContentLoaded', function() {
     // Add smooth scroll behavior for better UX
     document.documentElement.style.scrollBehavior = 'smooth';
 
-    // Handle video loading error
+    // Optimize video autoplay for mobile
     const videos = document.querySelectorAll('.main-video');
     videos.forEach(video => {
+        // Force video attributes for mobile compatibility
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('loop', '');
+        video.setAttribute('preload', 'auto');
+        video.setAttribute('webkit-playsinline', '');
+        
+        // Ensure video is muted
+        video.muted = true;
+        video.defaultMuted = true;
+        
+        // Force play on load
+        video.addEventListener('loadeddata', function() {
+            video.play().catch(error => {
+                console.log('Video autoplay failed:', error);
+            });
+        });
+        
+        // Handle video loading error
         video.addEventListener('error', function() {
             console.log('Error loading video, using placeholder');
             const container = this.parentElement;
@@ -53,89 +73,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     font-weight: 500;
                     backdrop-filter: blur(10px);
                     border: 1px solid rgba(255, 255, 255, 0.1);
-                    animation: slideInRight 0.3s ease-out;
                 `;
-
-                // Add animation keyframes if not already added
-                if (!document.querySelector('#notification-styles')) {
-                    const style = document.createElement('style');
-                    style.id = 'notification-styles';
-                    style.textContent = `
-                        @keyframes slideInRight {
-                            from {
-                                transform: translateX(100%);
-                                opacity: 0;
-                            }
-                            to {
-                                transform: translateX(0);
-                                opacity: 1;
-                            }
-                        }
-                        @keyframes slideOutRight {
-                            from {
-                                transform: translateX(0);
-                                opacity: 1;
-                            }
-                            to {
-                                transform: translateX(100%);
-                                opacity: 0;
-                            }
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
 
                 document.body.appendChild(notification);
 
                 // Auto remove notification after 4 seconds
                 setTimeout(() => {
                     if (notification.parentNode) {
-                        notification.style.animation = 'slideOutRight 0.3s ease-out';
-                        setTimeout(() => {
-                            if (notification.parentNode) {
-                                notification.remove();
-                            }
-                        }, 300);
+                        notification.remove();
                     }
                 }, 4000);
 
                 clickCount = 0;
-                
-                // Add sparkle effect
-                const sparkles = ['✨', '⭐', '🌟', '💫'];
-                
-                for (let i = 0; i < 6; i++) {
-                    setTimeout(() => {
-                        const sparkle = document.createElement('span');
-                        sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
-                        sparkle.style.cssText = `
-                            position: absolute;
-                            pointer-events: none;
-                            font-size: 20px;
-                            animation: sparkle 1s ease-out forwards;
-                            left: ${Math.random() * 100}px;
-                            top: ${Math.random() * 50}px;
-                        `;
-                        
-                        if (!document.querySelector('#sparkle-styles')) {
-                            const style = document.createElement('style');
-                            style.id = 'sparkle-styles';
-                            style.textContent = `
-                                @keyframes sparkle {
-                                    0% { transform: translateY(0) scale(0); opacity: 1; }
-                                    50% { transform: translateY(-20px) scale(1); opacity: 1; }
-                                    100% { transform: translateY(-40px) scale(0); opacity: 0; }
-                                }
-                            `;
-                            document.head.appendChild(style);
-                        }
-                        
-                        this.style.position = 'relative';
-                        this.appendChild(sparkle);
-                        
-                        setTimeout(() => sparkle.remove(), 1000);
-                    }, i * 200);
-                }
             }
         });
     }

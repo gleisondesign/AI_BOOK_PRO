@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -93,7 +92,7 @@ body::before {
 }
 
 .main-title {
-    font-size: 4rem;
+    font-size: 3.2rem;
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 32px;
@@ -248,7 +247,7 @@ body::before {
     }
     
     .main-title {
-        font-size: 2.75rem;
+        font-size: 2.2rem;
         margin-bottom: 24px;
         line-height: 1.15;
     }
@@ -323,7 +322,7 @@ body::before {
     }
     
     .main-title {
-        font-size: 2.25rem;
+        font-size: 1.9rem;
     }
     
     .main-description {
