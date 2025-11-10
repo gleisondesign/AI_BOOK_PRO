@@ -173,10 +173,59 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Handle window resize for responsive behavior
-window.addEventListener('resize', function() {
-    // Force repaint on resize to fix any layout issues
-    document.body.style.display = 'none';
-    document.body.offsetHeight; // Trigger reflow
-    document.body.style.display = '';
+// Benefits carousel functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const benefitsTrack = document.querySelector('.benefits-carousel-track');
+    const benefitsCards = Array.from(benefitsTrack?.children || []);
+    const benefitsNextBtn = document.querySelector('.benefits-carousel-btn-next');
+    const benefitsPrevBtn = document.querySelector('.benefits-carousel-btn-prev');
+    
+    if (!benefitsTrack || benefitsCards.length === 0) return;
+
+    let currentBenefitIndex = 0;
+    const isMobile = window.innerWidth <= 768;
+    const cardsPerView = isMobile ? 2 : 5;
+    const totalSlides = Math.ceil(benefitsCards.length / cardsPerView);
+
+    const moveBenefitsCarousel = () => {
+        const cardWidth = benefitsCards[0].offsetWidth;
+        const gap = 24; // gap between cards
+        const moveAmount = (cardWidth + gap) * cardsPerView;
+        benefitsTrack.style.transform = `translateX(-${currentBenefitIndex * moveAmount}px)`;
+    };
+
+    if (benefitsNextBtn) {
+        benefitsNextBtn.addEventListener('click', () => {
+            if (currentBenefitIndex < benefitsCards.length - cardsPerView) {
+                currentBenefitIndex++;
+                moveBenefitsCarousel();
+            }
+        });
+    }
+
+    if (benefitsPrevBtn) {
+        benefitsPrevBtn.addEventListener('click', () => {
+            if (currentBenefitIndex > 0) {
+                currentBenefitIndex--;
+                moveBenefitsCarousel();
+            }
+        });
+    }
+
+    // Auto-play benefits carousel
+    setInterval(() => {
+        if (currentBenefitIndex < benefitsCards.length - cardsPerView) {
+            currentBenefitIndex++;
+        } else {
+            currentBenefitIndex = 0;
+        }
+        moveBenefitsCarousel();
+    }, 4000);
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+        moveBenefitsCarousel();
+    });
 });
+
+
